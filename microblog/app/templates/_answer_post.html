@@ -1,0 +1,29 @@
+<table class="table table-hover">
+    <tr>
+        <td>
+           {# <a href="{{ url_for('forum.index', username=answer.author.username) }}">
+            </a>
+            {% set user_link %}
+                <span id="answer_post">
+                    <a href="{{ url_for('forum.index', username=answer.author.username) }}">
+                        {{ answer.author.username }}
+                    </a>
+                </span>
+            {% endset %}#}
+            {{ _('%(title)s answered %(when)s',
+            title=answer.title, when=moment(answer.timestamp).fromNow()) }}
+            <br>
+            <span id="answer{{ answer.id }}">{{ answer.body }}</span>
+            {% if answer.language and answer.language != g.locale %}
+            <br><br>
+            <span id="translation{{ answer.id }}">
+                <a href="javascript:translate(
+                            '#answer{{ answer.id }}',
+                            '#translation{{ answer.id }}',
+                            '{{ answer.language }}',
+                            '{{ g.locale }}');">{{ _('Translate') }}</a>
+            </span>
+            {% endif %}
+        </td>
+    </tr>
+</table>

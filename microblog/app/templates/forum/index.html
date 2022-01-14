@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+    <span id="question_area">
+        <h1>Topics</h1>
+        </br>
+        <a href="{{ url_for('forum.ask_question') }}" class="btn btn-primary active">
+            {{ _('Ask a question') }}
+        </a>
+        <a href="{{ url_for('forum.view_categories') }}" class="btn btn-warning active">
+            {{ _('View categories') }}
+        </a>
+    </br>
+    {% for question in questions %}
+        {% include '_question_post.html' %}
+    {% endfor %}
+    <nav aria-label="...">
+        <ul class="pager">
+            <li class="previous{% if not prev_url %} disabled{% endif %}">
+                <a href="{{ prev_url or '#' }}">
+                    <span aria-hidden="true">&larr;</span> {{ _('Newer questions') }}
+                </a>
+            </li>
+            <li class="next{% if not next_url %} disabled{% endif %}">
+                <a href="{{ next_url or '#' }}">
+                    {{ _('Older questions') }} <span aria-hidden="true">&rarr;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+{% endblock %}

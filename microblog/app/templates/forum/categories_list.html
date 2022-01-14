@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+    <span id="create_category_btn">
+        <a href="{{ url_for('forum.create_category') }}" class="btn btn-success active">
+            {{ _('Create new category') }}
+        </a>
+    </span>
+    <span id="categories_area">
+        <h1>{{ _('Categories') }}</h1>
+        <ul>
+            {% for category in existing_categories %}
+            <li>
+                <a>
+                    {% include '_category.html' %}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </span>
+{% endblock %}

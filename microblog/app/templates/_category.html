@@ -1,0 +1,21 @@
+<table class="table table-hover">
+    <tr>
+        <td width="100px">
+            <span id="category{{ category.id }}">
+                <a href="{{ url_for('forum.category_questions' , title=category.title) }}">
+                    {{ category.title }} | {{ _('Id: ')}}{{category.id}}
+                </a>
+            </span>
+            {% if category.language and category.language != g.locale %}
+            <br><br>
+            <span id="translation{{ category.id }}">
+                <a href="javascript:translate(
+                            '#category{{ category.id }}',
+                            '#translation{{ category.id }}',
+                            '{{ category.language }}',
+                            '{{ g.locale }}');">{{ _('Translate') }}</a>
+            </span>
+            {% endif %}
+        </td>
+    </tr>
+</table>
