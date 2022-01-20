@@ -11,9 +11,13 @@
                 </span>
             {% endset %}#}
             <a href="{{ url_for('forum.question_details', title=question.title) }}">
-                {{ _('%(title)s asked %(when)s',
-                title=question.title, when=moment(question.timestamp).fromNow()) }}
+                {{ _('%(title)s ',title=question.title )}}
             </a>
+            {{ _(' asked by ' )}}
+            <a href="{{ url_for('main.user', username=question.author.username) }}">
+                {{ _(' %(username)s ', username=question.user_id and question.author.username or 'Anonymous')}}
+            </a>
+                 {{ _(' %(when)s ', when=moment(question.timestamp).fromNow()) }}
             <br>
             <span id="question{{ question.id }}">{{ question.body }}</span>
             {% if question.language and question.language != g.locale %}

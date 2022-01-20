@@ -113,7 +113,6 @@ class User(PaginatedAPIMixin, UserMixin, AnonymousUserMixin, db.Model):
     notifications = db.relationship('Notification', backref='user',
                                     lazy='dynamic')
     tasks = db.relationship('Task', backref='user', lazy='dynamic')
-    questions = db.relationship('Question', backref='author', lazy='dynamic')
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -305,12 +304,16 @@ class Category(PaginatedAPIMixin, UserMixin, db.Model):
     def __repr__(self):
         return '<Category {}>'.format(self.body)
 
-class Question(PaginatedAPIMixin, UserMixin, AnonymousUserMixin, db.Model):
+class Question(PaginatedAPIMixin, UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(64), index=True, unique=True)
     body = db.Column(db.String(140))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    
+    
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    author = db.relationship('User', backref='questions', lazy='joined')
+
     answers = db.relationship('Answer', backref='question', lazy='dynamic')
     category = db.Column(db.Integer, db.ForeignKey('category.id'))
     language = db.Column(db.String(5))

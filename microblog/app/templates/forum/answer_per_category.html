@@ -4,6 +4,9 @@
 {% block app_content %}
     <span id="question_area">
         <h1>{{ _('Category:') }} {{ page_title }}</h1>
+        <a href="{{ url_for('forum.delete_category', id=id) }}" class="btn btn-danger active">
+            {{ _('Delete category') }}
+        </a>
     </br>
     {% for question in questions %}
         {% include '_question_post.html' %}

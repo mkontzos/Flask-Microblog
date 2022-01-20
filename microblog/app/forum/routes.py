@@ -37,14 +37,9 @@ def ask_question():
         except LangDetectException:
             language = ''
         
-        if current_user.is_authenticated:
-            question = Question(title=form.title.data, body=form.body.data,
-                                    category=form.category.data,author=current_user,
-                                    language=language)
-        else:
-            question = Question(title=form.title.data, body=form.body.data,
-                            category=form.category.data,author='Anonymous User',
-                            language=language)
+        question = Question(title=form.title.data, body=form.body.data,
+                                category=form.category.data, language=language,
+                                user_id = current_user.is_authenticated and current_user.id or None)
 
         db.session.add(question)
         db.session.commit()
@@ -125,4 +120,13 @@ def category_questions(title):
         if questions.has_prev else None
     return render_template('forum/answer_per_category.html',title=_('Forum'),
                            questions=questions.items, next_url=next_url,
-                           prev_url=prev_url, page_title=title)
+                           prev_url=prev_url, page_title=title, id=category_from_db.id)
+
+@bp.route('/forum/category/delete/<id>')
+@login_required
+def delete_category(id):
+    category = Category.query.filter_by(id=id).delete()
+    db.session.commit()
+    flash(_('The category has been deleted.'))
+    return redirect(url_for('forum.view_categories'))
+        

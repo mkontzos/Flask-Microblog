@@ -5,9 +5,14 @@
         <tr>
             <td>
                 <h1>{{ _('Question') }}: {{ question.title }}</h1>
-                <p>{{ _('%(title)s asked %(when)s',
-                    title=question.title, when=moment(question.timestamp).fromNow()) }}</p>
-                <p>{{ _('%(count)d answers given', count=question.answers.count()) }}</p>
+                <p>{{ _('%(title)s asked %(when)s by',
+                    title=question.title, when=moment(question.timestamp).fromNow()) }}
+                    <a href="{{ url_for('main.user', username=question.author.username) }}">
+                        {{ _(' %(username)s ', username=question.user_id and question.author.username or 'Anonymous')}}
+                    </a>
+                </p>
+                <p>{{ _('%(count)d given answers', count=question.answers.count()) }}</p>
+                
                 <p><a href="{{ url_for('forum.answer_question', title=question.title, id=question.id) }}">
                     {{ _('Give an answer') }}
                     </a>
